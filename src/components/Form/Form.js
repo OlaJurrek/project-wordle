@@ -1,6 +1,6 @@
 import React from "react";
 
-function Form() {
+function Form({ handleAddGuess }) {
   const [input, setInput] = React.useState("");
   return (
     <form
@@ -8,6 +8,8 @@ function Form() {
       onSubmit={(event) => {
         event.preventDefault();
         console.log({ guess: input.toUpperCase() });
+        const guess = input.toUpperCase();
+        handleAddGuess(guess);
         setInput("");
       }}
     >
