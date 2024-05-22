@@ -3,7 +3,7 @@ import Guess from "../Guess";
 import { range } from "../../utils";
 import { NUM_OF_GUESSES_ALLOWED } from "../../constants";
 
-function Guesses({ guesses }) {
+function GuessResults({ guesses }) {
   const rows = range(NUM_OF_GUESSES_ALLOWED).map((num) => ({
     index: crypto.randomUUID(),
     value: guesses[num],
@@ -17,4 +17,4 @@ function Guesses({ guesses }) {
   );
 }
 
-export default Guesses;
+export default GuessResults;

@@ -1,15 +1,15 @@
 import React from "react";
 
-function Form({ handleAddGuess }) {
-  const [input, setInput] = React.useState("");
+function GuessInput({ handleSubmitGuess }) {
+  const [tentativeGuess, setTentativeGuess] = React.useState("");
   return (
     <form
       className="guess-input-wrapper"
       onSubmit={(event) => {
         event.preventDefault();
-        console.log({ guess: input });
-        handleAddGuess(input);
-        setInput("");
+        console.log({ guess: tentativeGuess });
+        handleSubmitGuess(tentativeGuess);
+        setTentativeGuess("");
       }}
     >
       <label htmlFor="guess-input">Enter guess:</label>
@@ -17,14 +17,16 @@ function Form({ handleAddGuess }) {
         required
         id="guess-input"
         type="text"
-        value={input}
+        value={tentativeGuess}
         title="5 letter word"
         maxLength={5}
         pattern="[a-zA-Z]{5}"
-        onChange={(event) => setInput(event.target.value.toUpperCase())}
+        onChange={(event) =>
+          setTentativeGuess(event.target.value.toUpperCase())
+        }
       />
     </form>
   );
 }
 
-export default Form;
+export default GuessInput;
