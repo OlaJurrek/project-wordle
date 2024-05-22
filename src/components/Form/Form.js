@@ -7,19 +7,21 @@ function Form({ handleAddGuess }) {
       className="guess-input-wrapper"
       onSubmit={(event) => {
         event.preventDefault();
-        console.log({ guess: input.toUpperCase() });
-        const guess = input.toUpperCase();
-        handleAddGuess(guess);
+        console.log({ guess: input });
+        handleAddGuess(input);
         setInput("");
       }}
     >
       <label htmlFor="guess-input">Enter guess:</label>
       <input
+        required
         id="guess-input"
         type="text"
         value={input}
+        title="5 letter word"
+        maxLength={5}
         pattern="[a-zA-Z]{5}"
-        onChange={(event) => setInput(event.target.value)}
+        onChange={(event) => setInput(event.target.value.toUpperCase())}
       />
     </form>
   );
