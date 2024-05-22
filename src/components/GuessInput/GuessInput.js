@@ -14,13 +14,14 @@ function GuessInput({ handleSubmitGuess }) {
     >
       <label htmlFor="guess-input">Enter guess:</label>
       <input
-        required
+        autocomplete="off"
         id="guess-input"
-        type="text"
-        value={tentativeGuess}
-        title="5 letter word"
         maxLength={5}
         pattern="[a-zA-Z]{5}"
+        required
+        title="5 letter word"
+        type="text"
+        value={tentativeGuess}
         onChange={(event) =>
           setTentativeGuess(event.target.value.toUpperCase())
         }
