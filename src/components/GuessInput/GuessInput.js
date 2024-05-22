@@ -7,14 +7,13 @@ function GuessInput({ handleSubmitGuess }) {
       className="guess-input-wrapper"
       onSubmit={(event) => {
         event.preventDefault();
-        console.log({ guess: tentativeGuess });
         handleSubmitGuess(tentativeGuess);
         setTentativeGuess("");
       }}
     >
       <label htmlFor="guess-input">Enter guess:</label>
       <input
-        autocomplete="off"
+        autoComplete="off"
         id="guess-input"
         maxLength={5}
         pattern="[a-zA-Z]{5}"
