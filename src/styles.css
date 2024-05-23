@@ -222,8 +222,13 @@ h1 {
 /* Stretch goals styles */
 .keyboard {
   display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+}
+
+.keyboard-row {
+  display: flex;
   gap: 5px;
 }
 

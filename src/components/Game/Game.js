@@ -3,6 +3,7 @@ import React from "react";
 import { sample } from "../../utils";
 import { WORDS } from "../../data";
 import { NUM_OF_GUESSES_ALLOWED } from "../../constants";
+import { checkGuess } from "../../game-helpers";
 
 import GuessInput from "../GuessInput";
 import GuessResults from "../GuessResults";
@@ -24,6 +25,8 @@ function Game() {
 
   console.info({ answer });
 
+  const validatedGuesses = guesses.map((guess) => checkGuess(guess, answer));
+
   function handleSubmitGuess(tentativeGuess) {
     const nextGuesses = [...guesses, tentativeGuess];
     setGuesses(nextGuesses);
@@ -41,12 +44,12 @@ function Game() {
   }
   return (
     <>
-      <GuessResults guesses={guesses} answer={answer} />
+      <GuessResults guesses={validatedGuesses} answer={answer} />
       <GuessInput
         disabled={gameStatus !== "running"}
         handleSubmitGuess={handleSubmitGuess}
       />
-      <Keyboard answer={answer} guesses={guesses} />
+      <Keyboard validatedGuesses={validatedGuesses} />
       {gameStatus === "won" && (
         <WonBanner numOfGuesses={guesses.length} action={restartGame} />
       )}

@@ -1,56 +1,62 @@
 import React from "react";
-import { checkGuess } from "../../game-helpers";
 
-function Keyboard({ answer, guesses }) {
-  const keys = [
-    { letter: "Q", status: undefined },
-    { letter: "W", status: undefined },
-    { letter: "E", status: undefined },
-    { letter: "R", status: undefined },
-    { letter: "T", status: undefined },
-    { letter: "Y", status: undefined },
-    { letter: "U", status: undefined },
-    { letter: "I", status: undefined },
-    { letter: "O", status: undefined },
-    { letter: "P", status: undefined },
-    { letter: "A", status: undefined },
-    { letter: "S", status: undefined },
-    { letter: "D", status: undefined },
-    { letter: "F", status: undefined },
-    { letter: "G", status: undefined },
-    { letter: "H", status: undefined },
-    { letter: "J", status: undefined },
-    { letter: "K", status: undefined },
-    { letter: "L", status: undefined },
-    { letter: "Z", status: undefined },
-    { letter: "X", status: undefined },
-    { letter: "C", status: undefined },
-    { letter: "V", status: undefined },
-    { letter: "B", status: undefined },
-    { letter: "N", status: undefined },
-    { letter: "M", status: undefined },
-  ];
+const ROWS = [
+  ["Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P"],
+  ["A", "S", "D", "F", "G", "H", "J", "K", "L"],
+  ["Z", "X", "C", "V", "B", "N", "M"],
+];
 
-  for (let quess of guesses) {
-    const result = checkGuess(quess, answer);
-    for (let item of result) {
-      for (let key of keys) {
-        if (key.letter === item.letter) {
-          key.status = item.status;
-        }
-      }
+function getStatusByLetter(validatedGuesses) {
+  const statusObj = {};
+  // `.flat()` is a method that flattens nested arrays.
+  // Here it produces an array containing all of the letter/status
+  // objects for each guess.
+  const allLetters = validatedGuesses.flat();
+
+  allLetters.forEach(({ letter, status }) => {
+    const currentStatus = statusObj[letter];
+
+    if (currentStatus === undefined) {
+      statusObj[letter] = status;
+      return;
     }
-  }
+
+    // The same letter might have multiple matched statuses.
+    // For example, if the answer is "APPLE" and the user guesses
+    // "PAPER", then the letter "P" is misplaced (for the first P)
+    // and correct (for the second P).
+    //
+    // We want to prioritize the statuses in this order:
+    const STATUS_RANKS = {
+      correct: 1,
+      misplaced: 2,
+      incorrect: 3,
+    };
+
+    const currentStatusRank = STATUS_RANKS[currentStatus];
+    const newStatusRank = STATUS_RANKS[status];
+
+    if (newStatusRank < currentStatusRank) {
+      statusObj[letter] = status;
+    }
+  });
+
+  return statusObj;
+}
+
+function Keyboard({ validatedGuesses }) {
+  const statusByLetter = getStatusByLetter(validatedGuesses);
 
   return (
     <div className="keyboard">
-      {keys.map((key) => (
-        <strong
-          className={`key ${key.status ? key.status : ""}`}
-          key={key.letter}
-        >
-          {key.letter}
-        </strong>
+      {ROWS.map((row, index) => (
+        <div className="keyboard-row" key={index}>
+          {row.map((letter) => (
+            <div key={letter} className={`key ${statusByLetter[letter] || ""}`}>
+              {letter}
+            </div>
+          ))}
+        </div>
       ))}
     </div>
   );
