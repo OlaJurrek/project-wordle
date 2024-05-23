@@ -48,10 +48,10 @@ function Game() {
       />
       <Keyboard answer={answer} guesses={guesses} />
       {gameStatus === "won" && (
-        <WonBanner numOfGuesses={guesses.length} restartGame={restartGame} />
+        <WonBanner numOfGuesses={guesses.length} action={restartGame} />
       )}
       {gameStatus === "lost" && (
-        <LostBanner answer={answer} restartGame={restartGame} />
+        <LostBanner answer={answer} action={restartGame} />
       )}
     </>
   );

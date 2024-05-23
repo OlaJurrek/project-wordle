@@ -1,11 +1,14 @@
 import React from "react";
-import RestartButton from "../RestartButton";
 
-function Banner({ status, children, restartGame }) {
+function Banner({ status, children, action, actionText }) {
   return (
     <div className={`banner ${status}`}>
       {children}
-      <RestartButton restartGame={restartGame} />
+      {action && (
+        <button className="restart" onClick={action}>
+          {actionText}
+        </button>
+      )}
     </div>
   );
 }
